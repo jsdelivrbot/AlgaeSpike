@@ -3,11 +3,13 @@ import { NgModule } from '@angular/core';
 
 
 import { AppComponent } from './app.component';
+import { DatabaseworkComponent } from './databaseTest/databasework/databasework.component';
 
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    DatabaseworkComponent
   ],
   imports: [
     BrowserModule
