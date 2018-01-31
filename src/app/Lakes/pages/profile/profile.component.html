@@ -1,21 +1,22 @@
 <p>Your Lake Profile</p>
 <br>
 <table style="width:100%">
-  <tr>
-    <th>Lake Picture</th>
+  <thead>
+    <th>Lake Id</th>
     <th>Lake Name</th>
     <th>Lake Safety</th>
-  </tr>
-  <tr>
-    <td>Picture</td>
-    <td>Michigan</td>
-    <td class="colorCode"></td>
-  </tr>
-  <tr>
-    <td>Picture</td>
-    <td>Placid</td>
-    <td class="colorCode"></td>
-  </tr>
+  </thead>
+  <tbody>
+    <tr
+      *ngFor="let lake of listOfLakes"
+    >
+      <td>{{lake.id}}</td>
+      <td>{{lake.name}}</td>
+      <td
+        [ngClass]="{italic: italic, bold: bold, 'error': error}"
+      >{{lake.dangerLevel}}</td>
+    </tr>
+  </tbody>
 </table>
 <br>
 <p><a href="/dashboard">Link to Dashboard</a></p>

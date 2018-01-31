@@ -1,4 +1,7 @@
 import {Component, OnInit} from '@angular/core';
+import { CommonModule } from '@angular/common';
+import {LAKES} from '../../models/lakeData';
+import {Lake} from '../../models/lake';
 
 @Component({
     selector: 'app-profile',
@@ -7,5 +10,6 @@ import {Component, OnInit} from '@angular/core';
 })
 
 export class ProfileComponent implements OnInit {
-    ngOnInit() {}
+  listOfLakes = LAKES;
+  ngOnInit() {}
 }

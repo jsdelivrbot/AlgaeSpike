@@ -1,42 +1,44 @@
-// const express = require('express');
-// const router = express.Router();
-// const mongoose = require('mongoose');
-// const connectionURL = "mongodb://<GreenKay>:<GreenKay>@ds213338.mlab.com:13338/greenaglae";
-// const algaeData = require('../models/algaeData');
-//
-//
-// mongoose.Promise = global.Promise;
-// mongoose.connect(connectionURL, function (err){
-//   if (err){
-//     console.log("error" + err);
-//   }
-// });
-//
-// var db = mongoose.connection;
-// db.on('error', console.error.bind(console, 'MongoDB connection error:'));
-// db.once('open', function () {
-//   console.log("Inside!");
-// });
-//
-// router.get('/algaeData', function(req, res){
-//   console.log("Get for all data:");
-//   algaeData.find({})
-//   .exec(function(err, algaeDataSets){
-//     if (err){
-//       console.log("Error getting algae data");
-//     } else {
-//       res.json(algaeData);
-//     }
-//   })
-// });
-//
-
 const express = require('express');
 const router = express.Router();
-router.get('/', function (req, res) {
-  res.send('api works');
+const MongoClient = require('mongodb').MongoClient;
+const ObjectID = require('mongodb').ObjectID;
+
+// Connect
+const connection = (closure) => {
+  return MongoClient.connect('mongodb://<GreenKay>:<GreenKay1>@ds213338.mlab.com:13338/greenaglae', (err, db) => {
+    if (err) return console.log(err);
+  closure(db);
+  });
+};
+
+// Error handling
+const sendError = (err, res) => {
+  response.status = 501;
+  response.message = typeof err == 'object' ? err.message : err;
+  res.status(501).json(response);
+};
+
+// Response handling
+let response = {
+  status: 200,
+  data: [],
+  message: null
+};
+
+// Get Lakes
+router.get('/users', (req, res) => {
+  connection((db) => {
+  db.collection('users')
+    .find()
+    .toArray()
+    .then((users) => {
+    response.data = users;
+  res.json(response);
+})
+.catch((err) => {
+    sendError(err, res);
+});
+});
 });
 
 module.exports = router;
-
-
