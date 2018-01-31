@@ -8,6 +8,8 @@ import { DatabaseworkComponent } from './databaseTest/databasework/databasework.
 import {DashboardComponent} from './Lakes/pages/dashboard/dashboard.component';
 import {ProfileComponent} from './Lakes/pages/profile/profile.component';
 
+import {BuoyDataService} from './Lakes/services/buoyData/buoyData.service';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -19,7 +21,9 @@ import {ProfileComponent} from './Lakes/pages/profile/profile.component';
     BrowserModule,
     AppRoutingModule
   ],
-  providers: [],
+  providers: [
+      BuoyDataService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

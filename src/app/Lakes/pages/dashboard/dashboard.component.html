@@ -1,21 +1,42 @@
-<img class="lake placid" src="../../../../assets/Lake%2520Placid.jpg">
+<div class="row">
+    <div class="col">
+        <div class="card provisions">
+            <div class="card-header">
+                <div class="btn-toolbar justify-content-between" role="toolbar">
+                    <div>
+                        {{lakeName}}
+                    </div>
+                </div>
+            </div>
 
-<table>
-    <tr>
-        <th>
-            Lake Name
-        </th>
-        <th>
-            Most Detected Algae
-        </th>
-        <th>
-            pH
-        </th>
-        <th>
-            turbidity
-        </th>
-        <th>
-            salinity
-        </th>
-    </tr>
-</table>
+            <div class="card-body">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>MDA</th>
+                            <th>pH</th>
+                            <th>Turbidity</th>
+                            <th>Salinity</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    <tr *ngFor="let buoyData of getBuoyData()">
+                        <td>
+                            {{buoyData.MDA}}
+                        </td>
+                        <td>
+                            {{buoyData.pH}}
+                        </td>
+                        <td>
+                            {{buoyData.turbidity}}
+                        </td>
+                        <td>
+                            {{buoyData.salinity}}
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
