@@ -1,7 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {LAKES} from '../../models/lakeData';
 import {Lake} from '../../models/lake';
+import { HttpModule } from '@angular/http';
+import { DataService } from '../../../Services/data.service';
 
 @Component({
     selector: 'app-profile',
@@ -9,7 +10,15 @@ import {Lake} from '../../models/lake';
     styleUrls: ['./profile.component.scss']
 })
 
+
 export class ProfileComponent implements OnInit {
-  listOfLakes = LAKES;
+  listOfLakes: Array<Lake>;
+
+  constructor(private dataService: DataService) {
+    this.dataService.getLakes()
+      .subscribe(res => this.listOfLakes = res);
+  }
+
   ngOnInit() {}
+
 }

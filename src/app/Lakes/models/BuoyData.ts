@@ -1,4 +1,4 @@
-interface BuoyData {
+export interface BuoyData {
     pH: number;
     salinity: number;
     turbidity: number;

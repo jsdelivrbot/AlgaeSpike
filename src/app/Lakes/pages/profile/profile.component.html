@@ -7,14 +7,16 @@
     <th>Lake Safety</th>
   </thead>
   <tbody>
-    <tr
-      *ngFor="let lake of listOfLakes"
-    >
-      <td>{{lake.id}}</td>
-      <td>{{lake.name}}</td>
-      <td
-        [ngClass]="{italic: italic, bold: bold, 'error': error}"
-      >{{lake.dangerLevel}}</td>
+    <tr *ngFor="let lake of listOfLakes">
+      <td>
+        {{lake.id}}
+      </td>
+      <td>
+        <a [routerLink]="['/dashboard', {name: lake.lakeName}]">{{lake.lakeName}}</a>
+      </td>
+      <td [ngClass]="{italic: italic, bold: bold, 'error': error}">
+        {{lake.buoys[0].currentConditionCode}}
+      </td>
     </tr>
   </tbody>
 </table>

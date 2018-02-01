@@ -1,0 +1,21 @@
+table{
+   width: 100%;
+   border: 1px solid black;
+ }
+
+td {
+  padding: 2px;
+  text-align: center;
+}
+
+th {
+  background-color: lightgray;
+}
+
+tr:nth-child(odd) {
+  background-color: white;
+}
+
+tr:nth-child(even) {
+  background-color: lightgray;
+}
