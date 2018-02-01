@@ -26,8 +26,6 @@ export class DashboardComponent implements OnInit {
         this.route.params.subscribe(params => {
             this.lakeName = params['name'];
 
-
-
             this.buoyData = this.buoyDataService.getAll(version, this.lakeName);
                 // .then((result) => this.buoyData = result);
         });

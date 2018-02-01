@@ -22,19 +22,19 @@ export class BuoyDataService {
         const response: BuoyData[] = [
                 {
                     MDA: 'Safe',
-                    pH: 7.00,
+                    pH: 7.45,
                     turbidity: 45,
                     salinity: 28
                 },
                 {
                     MDA: 'Warn',
-                    pH: 10.00,
+                    pH: 10.53,
                     turbidity: 98,
                     salinity: 12
                 },
                 {
                     MDA: 'Deadly',
-                    pH: 2.00,
+                    pH: 2.44,
                     turbidity: 13,
                     salinity: 79
                 }
