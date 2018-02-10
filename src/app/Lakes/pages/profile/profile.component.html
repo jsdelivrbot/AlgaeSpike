@@ -14,7 +14,7 @@
       <td>
         <a [routerLink]="['/dashboard', {name: lake.lakeName}]">{{lake.lakeName}}</a>
       </td>
-      <td [ngClass]="{italic: italic, bold: bold, 'error': error}">
+      <td id = {{lake.buoys[0].currentConditionCode}}>
         {{lake.buoys[0].currentConditionCode}}
       </td>
     </tr>

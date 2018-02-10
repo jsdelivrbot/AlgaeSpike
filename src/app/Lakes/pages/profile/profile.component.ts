@@ -15,10 +15,16 @@ export class ProfileComponent implements OnInit {
   listOfLakes: Array<Lake>;
 
   constructor(private dataService: DataService) {
-    this.dataService.getLakes()
-      .subscribe(res => this.listOfLakes = res);
+    console.log('hey hey');
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    console.log('calling data service');
+    this.dataService.getLakes()
+      .subscribe(res => {
+        this.listOfLakes = res;
+        console.log('hey', this.listOfLakes);
+      });
+  }
 
 }
