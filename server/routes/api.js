@@ -30,6 +30,7 @@ let response = {
 const lakeSchema = mongoose.Schema({
   id: Number,
   lakeName: String,
+  safetyLevel: String,
   buoys: [
     {
       buoyId: Number,
@@ -47,7 +48,13 @@ const lakeSchema = mongoose.Schema({
   ]
 });
 
+const lakeSchemaLog = mongoose.Schema({
+  timeStamp: Date,
+  requestInfo: lakeSchema,
+});
+
 const Lake = mongoose.model('Lake', lakeSchema);
+const LakeLogs = mongoose.model('logs', lakeSchemaLog);
 
 router.get('/', (req, res) => {
   console.log('Base Page');
@@ -62,9 +69,21 @@ router.get('/lakes', (req, res) => {
   console.log('Finding lakes!');
   Lake.find(function (err, lakes) {
     if (err) return console.log(err);
-    console.log(lakes.toString());
+    // console.log(lakes.toString());
     res.json(lakes);
+
+    const lakeLogData = new LakeLogs({
+      timeStamp: Date.now(),
+      requestInfo: JSON.stringify(lakes),
+    });
+
+    console.log("I love ryan like kanye loves kanye", lakeLogData.requestInfo);
+
+    lakeLogData.save(function (err, lakeLogData) {
+      if (err) return console.error(err);
+    });
   });
+
 });
 
 
