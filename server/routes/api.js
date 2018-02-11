@@ -48,8 +48,6 @@ const lakeSchema = mongoose.Schema({
 });
 
 const Lake = mongoose.model('Lake', lakeSchema);
-Lake.where
-
 
 router.get('/', (req, res) => {
   console.log('Base Page');
