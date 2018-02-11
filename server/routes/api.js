@@ -50,7 +50,7 @@ const lakeSchema = mongoose.Schema({
 
 const lakeSchemaLog = mongoose.Schema({
   timeStamp: Date,
-  requestInfo: lakeSchema,
+  requestInfo: String,
 });
 
 const Lake = mongoose.model('Lake', lakeSchema);
@@ -74,7 +74,7 @@ router.get('/lakes', (req, res) => {
 
     const lakeLogData = new LakeLogs({
       timeStamp: Date.now(),
-      requestInfo: JSON.stringify(lakes),
+      requestInfo: lakes.toString(),
     });
 
     console.log("I love ryan like kanye loves kanye", lakeLogData.requestInfo);
