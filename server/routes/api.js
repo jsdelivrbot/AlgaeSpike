@@ -72,9 +72,9 @@ router.get('/lakes', (req, res) => {
 
 // returns a certain lake
 router.get('/lake/:lakeName', (req, res) => {
-  var queryFind = req.params.lakeName;
-  console.log("finding lake: ",queryFind);
-  Lake.findOne({'lakeName': queryFind}, function(err, lake){
+  var lakeName = req.params.lakeName;
+  console.log("finding lake: ",lakeName);
+  Lake.findOne({'lakeName': lakeName}, function(err, lake){
     if (err) return console.log(err);
     if (lake === null){
         var lakeErr = {"error" : "invalid lake"};
@@ -88,12 +88,19 @@ router.get('/lake/:lakeName', (req, res) => {
 });
 
 // returns json of attribute name at certain level
-router.get('/collection/:attriName/:value', (req, res) => {
-  console.log('Finding lakes!');
-  Lake.find(function (err, lakes) {
+router.get('/safetyLevel/:code', (req, res) => {
+  var colorCode = (req.params.code).toUpperCase();
+  console.log('Finding all lakes of code: ', colorCode);
+  Lake.find({'safetyLevel': colorCode}, function(err, codes){
     if (err) return console.log(err);
-    console.log(lakes.toString());
-    res.json(lakes);
+    if (codes.length === 0){
+      var lakeErr = {"error" : "invalid color code"};
+      console.log(lakeErr);
+      res.json(lakeErr);
+    } else {
+      console.log(codes);
+      res.json(codes);
+    }
   });
 });
 
