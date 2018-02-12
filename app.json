@@ -1,0 +1,8 @@
+{
+  "name": "Algae Tracker",
+  "description": "A barebones Node.js app using Express 4 to prove stuff",
+  "repository": "https://github.com/Okayzle/AlgaeSpike",
+  "logo": "https://cdn.rawgit.com/heroku/node-js-getting-started/master/public/node.svg",
+  "keywords": ["node", "express", "heroku"],
+  "image": "heroku/nodejs"
+}

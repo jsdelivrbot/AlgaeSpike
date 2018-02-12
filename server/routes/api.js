@@ -69,16 +69,12 @@ router.get('/lakes', (req, res) => {
   console.log('Finding lakes!');
   Lake.find(function (err, lakes) {
     if (err) return console.log(err);
-    // console.log(lakes.toString());
     res.json(lakes);
 
     const lakeLogData = new LakeLogs({
       timeStamp: Date.now(),
       requestInfo: lakes.toString(),
     });
-
-    console.log("I love ryan like kanye loves kanye", lakeLogData.requestInfo);
-
     lakeLogData.save(function (err, lakeLogData) {
       if (err) return console.error(err);
     });
@@ -101,6 +97,13 @@ router.get('/lake/:lakeName', (req, res) => {
       console.log(lake);
       res.json(lake);
     }
+    const lakeLogData = new LakeLogs({
+      timeStamp: Date.now(),
+      requestInfo: lake.toString(),
+    });
+    lakeLogData.save(function (err, lakeLogData) {
+      if (err) return console.error(err);
+    });
   });
 });
 
@@ -118,6 +121,13 @@ router.get('/safetyLevel/:code', (req, res) => {
       console.log(codes);
       res.json(codes);
     }
+    const lakeLogData = new LakeLogs({
+      timeStamp: Date.now(),
+      requestInfo: colorCode.toString(),
+    });
+    lakeLogData.save(function (err, colorCode) {
+      if (err) return console.error(err);
+    });
   });
 });
 
