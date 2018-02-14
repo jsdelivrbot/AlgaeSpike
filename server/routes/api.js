@@ -54,7 +54,6 @@ router.get('/', (req, res) => {
     // if (err) return console.log(err);
     console.log("Base Page");
     res.json("welcome home!");
-
 });
 
 // returns all lakes
@@ -77,7 +76,7 @@ router.get('/lake/:lakeName', (req, res) => {
     if (lake === null){
         var lakeErr = {"error" : "invalid lake"};
         console.log(lakeErr);
-        res.json(lakeErr);
+        res.status(400).json(lakeErr);
     } else {
       console.log(lake);
       res.json(lake);
@@ -94,12 +93,21 @@ router.get('/safetyLevel/:code', (req, res) => {
     if (codes.length === 0){
       var lakeErr = {"error" : "invalid color code"};
       console.log(lakeErr);
-      res.json(lakeErr);
+      res.status(400).json(lakeErr);
     } else {
       console.log(codes);
       res.json(codes);
     }
   });
+});
+
+// handles malformed requests
+router.get('/(:path/?)*', (req, res) => {
+    var path = req.params.path;
+    console.log("incorrect request path: ", path);
+    var requestErr = {"error" : "invalid request path"};
+    console.log(requestErr);
+    res.status(400).json(requestErr);
 });
 
 module.exports = router;
