@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const mongoose = require('mongoose'), Schema = mongoose.Schema;
+const util = require('util');
 
 const uriString = "mongodb://GreenJon:GreenJon1@ds221258.mlab.com:21258/algaedata2";
 
@@ -50,11 +51,31 @@ const lakeSchema = mongoose.Schema({
 
 const lakeSchemaLog = mongoose.Schema({
   timeStamp: Date,
-  requestInfo: String,
+  requestMethod: String,
+  requestParams: String,
+  requestBody: String,
+  requestQuery: String,
+  responseInfo: String,
+  responseStatus: Number,
 });
 
 const Lake = mongoose.model('Lake', lakeSchema);
 const LakeLogs = mongoose.model('logs', lakeSchemaLog);
+
+function logApiCall(req, data, resCode){
+    const lakeLogData = new LakeLogs({
+        timeStamp: Date.now(),
+        requestMethod: req.method,
+        requestParams: JSON.stringify(req.params),
+        requestBody: JSON.stringify(req.body),
+        requestQuery: JSON.stringify(req.query),
+        responseInfo: data.toString(),
+        responseStatus: resCode
+    });
+    lakeLogData.save(function (err, lakeLogData) {
+        if (err) return console.error(err);
+    });
+}
 
 router.get('/', (req, res) => {
   console.log('Base Page');
@@ -67,42 +88,36 @@ router.get('/', (req, res) => {
 router.get('/lakes', (req, res) => {
   console.log('Finding lakes!');
   Lake.find(function (err, lakes) {
-    if (err) return console.log(err);
-    res.json(lakes);
-
-    const lakeLogData = new LakeLogs({
-      timeStamp: Date.now(),
-      requestInfo: lakes.toString(),
-    });
-    lakeLogData.save(function (err, lakeLogData) {
-      if (err) return console.error(err);
-    });
+    if (err) {
+      console.log(err);
+      res.status(400).json(err);
+      logApiCall(req, codes, 400);
+    }
+    else {
+      res.json(lakes);
+      logApiCall(req, lakes);
+    }
   });
 
 });
 
 
 // returns a certain lake
-router.get('/lake/:lakeName', (req, res) => {
+router.get('/lakes/:lakeName', (req, res) => {
   var lakeName = req.params.lakeName;
   console.log("finding lake: ",lakeName);
   Lake.findOne({'lakeName': lakeName}, function(err, lake){
     if (err) return console.log(err);
     if (lake === null){
-        var lakeErr = {"error" : "invalid lake"};
-        console.log(lakeErr);
-        res.status(400).json(lakeErr);
+      var lakeErr = {"error" : "invalid lake"};
+      console.log(lakeErr);
+      res.status(400).json(lakeErr);
+      logApiCall(req, codes, 400);
     } else {
       console.log(lake);
       res.json(lake);
+      logApiCall(req, codes, 200);
     }
-    const lakeLogData = new LakeLogs({
-      timeStamp: Date.now(),
-      requestInfo: lake.toString(),
-    });
-    lakeLogData.save(function (err, lakeLogData) {
-      if (err) return console.error(err);
-    });
   });
 });
 
@@ -116,17 +131,12 @@ router.get('/safetyLevel/:code', (req, res) => {
       var lakeErr = {"error" : "invalid color code"};
       console.log(lakeErr);
       res.status(400).json(lakeErr);
+      logApiCall(req, codes, 400);
     } else {
       console.log(codes);
       res.json(codes);
+      logApiCall(req, codes, 200);
     }
-    const lakeLogData = new LakeLogs({
-      timeStamp: Date.now(),
-      requestInfo: colorCode.toString(),
-    });
-    lakeLogData.save(function (err, colorCode) {
-      if (err) return console.error(err);
-    });
   });
 });
 
@@ -137,6 +147,7 @@ router.get('/(:path/?)*', (req, res) => {
     var requestErr = {"error" : "invalid request path"};
     console.log(requestErr);
     res.status(400).json(requestErr);
+    logApiCall(req, "", 400);
 });
 
 module.exports = router;
