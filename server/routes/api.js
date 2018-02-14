@@ -30,6 +30,7 @@ let response = {
 const lakeSchema = mongoose.Schema({
   id: Number,
   lakeName: String,
+  safetyLevel: String,
   buoys: [
     {
       buoyId: Number,
@@ -47,7 +48,13 @@ const lakeSchema = mongoose.Schema({
   ]
 });
 
+const lakeSchemaLog = mongoose.Schema({
+  timeStamp: Date,
+  requestInfo: String,
+});
+
 const Lake = mongoose.model('Lake', lakeSchema);
+const LakeLogs = mongoose.model('logs', lakeSchemaLog);
 
 router.get('/', (req, res) => {
   console.log('Base Page');
@@ -61,9 +68,17 @@ router.get('/lakes', (req, res) => {
   console.log('Finding lakes!');
   Lake.find(function (err, lakes) {
     if (err) return console.log(err);
-    console.log(lakes.toString());
     res.json(lakes);
+
+    const lakeLogData = new LakeLogs({
+      timeStamp: Date.now(),
+      requestInfo: lakes.toString(),
+    });
+    lakeLogData.save(function (err, lakeLogData) {
+      if (err) return console.error(err);
+    });
   });
+
 });
 
 
@@ -81,6 +96,13 @@ router.get('/lake/:lakeName', (req, res) => {
       console.log(lake);
       res.json(lake);
     }
+    const lakeLogData = new LakeLogs({
+      timeStamp: Date.now(),
+      requestInfo: lake.toString(),
+    });
+    lakeLogData.save(function (err, lakeLogData) {
+      if (err) return console.error(err);
+    });
   });
 });
 
@@ -98,6 +120,13 @@ router.get('/safetyLevel/:code', (req, res) => {
       console.log(codes);
       res.json(codes);
     }
+    const lakeLogData = new LakeLogs({
+      timeStamp: Date.now(),
+      requestInfo: colorCode.toString(),
+    });
+    lakeLogData.save(function (err, colorCode) {
+      if (err) return console.error(err);
+    });
   });
 });
 
