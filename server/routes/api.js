@@ -112,11 +112,11 @@ router.get('/lakes/:lakeName', (req, res) => {
       var lakeErr = {"error" : "invalid lake"};
       console.log(lakeErr);
       res.status(400).json(lakeErr);
-      logApiCall(req, codes, 400);
+      logApiCall(req, lake, 400);
     } else {
       console.log(lake);
       res.json(lake);
-      logApiCall(req, codes, 200);
+      logApiCall(req, lake, 200);
     }
   });
 });
